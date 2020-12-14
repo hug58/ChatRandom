@@ -2,9 +2,23 @@ const form = document.getElementById("form-text")
 const socket = new WebSocket("ws://localhost:3000/ws")
 console.log("Try connect to WebSocket server")
 
-socket.onopen = () =>{
-console.log("Connected!")
-  socket.send("hello from cliente xd")
+socket.addEventListener('message', function (event) {
+    console.log('Message from server ', event.data);
+});
+
+
+socket.onopen = (e) =>{
+console.log("Connected!",e)
+}
+
+socket.onmessage = (e) =>{
+  document.querySelector('.displayChat').innerHTML += `
+   <div class="chat-bubble">
+        <p>${e.data}</p>
+      </div>
+
+  `
+  console.log(e.data)
 }
 
 socket.onclose = (e)=>{
@@ -19,7 +33,6 @@ socket.onerror = (err)=>{
 form.addEventListener("submit", (e) => {
   e.preventDefault()
   const message = form['textBox'].value
-  console.log(message)
-
+  socket.send(message)
+  form.reset()
 })
-
