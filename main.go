@@ -22,7 +22,6 @@ var upgrader = websocket.Upgrader{
  WriteBufferSize: 1024,
 }
 
-
 func index(w http.ResponseWriter, r *http.Request){
   file,err := ioutil.ReadFile("./views/index.html")
 
@@ -35,30 +34,31 @@ func index(w http.ResponseWriter, r *http.Request){
 }
 
 func reader(conn *websocket.Conn){
- for {
-      // Capture the message from the client
+for {
+   // Capture the message from the client
       messageType, p ,err := conn.ReadMessage()
-                    
-      if err != nil{ 
+
+    if err != nil{ 
           for client := range clients{
           delete(clients,client)
          }
        log.Println(err)
        return
-       }
+      }
 
-      // Walk through connected clients and display the message
+  // Walk through connected clients and display the message
        for client := range clients {
-           err := client.WriteMessage(messageType,p)
+          err := client.WriteMessage(messageType,p)
                if err != nil {
                     log.Printf("error: %v", err)
                     client.Close()
                     delete(clients, client)
-                    return
+                    return 
               }
           }
       } 
 }
+    
 
 
 func handleConnections(w http.ResponseWriter, r *http.Request){
@@ -69,6 +69,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request){
 
  if(err != nil){
    log.Println(err)
+   ws.Close()
    return
  }
 
@@ -78,7 +79,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request){
  log.Println("client Connected...")
 
  reader(ws)
-  
+
 
 }
 

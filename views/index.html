@@ -15,22 +15,24 @@
 <body>
   <div class="container">
     <div class="displayChat">
-      <div class="chat-bubble">
-        
-      </div>
     </div>
 
+    <div class="box-form">
+              <div class="box-write">
+          <div>
+            <input type="text" name="name" id="name" placeholder="username">
+          </div>
+          <div>
+            <form id="form-text" method="POST">
+            <textarea id="textBox" name="textBox" placeholder="Type Somenthing"></textarea>
+            <button type="submit" class="btn">Send</button>
+            </form>
+          </div>
+        </div>
 
-    <form id="form-text" method="POST">
-
-      <div class="box-write">
-        <textarea id="textBox" name="textBox" placeholder="Type Somenthing"></textarea>
-        <button type="submit" class="btn">Send</button>
-      </div>
-
-    </form>
+      
+    </div>
   </div>
-
   <script src="views/js/script.js"></script>
 </body>
 
